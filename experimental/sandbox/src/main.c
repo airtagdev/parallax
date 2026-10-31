@@ -532,7 +532,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR args, int show)
     RegisterClassA(&wc);
     RECT size = {0, 0, 1440, 900};
     AdjustWindowRect(&size, WS_OVERLAPPEDWINDOW, FALSE);
-    window = CreateWindowA(wc.lpszClassName, "Parallax - Native C", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
+    window = CreateWindowA(wc.lpszClassName, "Parallax - Experimental Sandbox (not Minecraft 26.3)", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
                            CW_USEDEFAULT, size.right - size.left, size.bottom - size.top, NULL, NULL,
                            instance, NULL);
     if (!window)

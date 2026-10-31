@@ -10,6 +10,8 @@ The original 0.1 release was a custom voxel sandbox. It was the wrong implementa
 
 The new default executable is built from `src/rewrite/`. It contains no copied Minecraft Java implementation, bytecode, native game library, or original Minecraft shader program. Windows/OpenGL platform APIs are used by the C application. Java appears only in optional, separate reference tools; the C executable does not start or embed a JVM.
 
+For an explicitly labeled playable build of the retired experiment, run `scripts/build-playable-experiment.ps1`. It extracts 18 block textures from the local 26.3 JAR and builds `release/playable-experiment/ParallaxSandbox.exe`, with separate saves and integrity/render checks. This is the earlier custom sandbox, not the faithful rewrite; it does not replace the default executable.
+
 ## Current evidence
 
 | Component | Implemented / tested | Limits |
