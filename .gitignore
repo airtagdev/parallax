@@ -1,0 +1,7 @@
+/build/
+/release/
+*.pxw
+*.tmp
+*.bmp
+self-test-results.txt
+.vs/
