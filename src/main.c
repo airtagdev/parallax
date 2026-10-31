@@ -59,6 +59,8 @@ void play_sound(int kind) {
         PlaySoundA((LPCSTR)waves[kind % 3], NULL, SND_MEMORY | SND_ASYNC | SND_NODEFAULT);
 }
 void capture_mouse(int capture) {
+    if (smoke_mode)
+        return;
     if (capture == mouse_captured)
         return;
     mouse_captured = capture;
@@ -587,9 +589,35 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR args, int show)
     int frames = 0;
     int smoke_actions = 0;
     float repeat_clock = 0;
+    char smoke_original_dir[MAX_PATH] = {0};
+    int smoke_failures = 0;
+    FILE *smoke_report = NULL;
     if (smoke_mode) {
-        generate_world(8675309, "Render test", 0);
-        screen = GAME;
+        strcpy_s(smoke_original_dir, sizeof(smoke_original_dir), data_dir);
+        snprintf(data_dir, sizeof(data_dir), "%s\\render-test-%lu", smoke_original_dir,
+                 GetCurrentProcessId());
+        CreateDirectoryA(data_dir, NULL);
+        fopen_s(&smoke_report, "render-test-results.txt", "w");
+        // Exercise the same immediate-mode button handling used by real clicks.
+        mouse_x = win_w / 2;
+        mouse_y = (int)(win_h * .25f) + 155;
+        mouse_click = 1;
+        render_frame(0);
+        if (screen != WORLDS)
+            smoke_failures++;
+        mouse_y = 230;
+        mouse_click = 1;
+        render_frame(0);
+        if (screen != CREATE)
+            smoke_failures++;
+        strcpy_s(world_name, sizeof(world_name), "Render test");
+        strcpy_s(seed_input, sizeof(seed_input), "8675309");
+        mouse_y = 490;
+        mouse_click = 1;
+        render_frame(0);
+        if (screen != GAME)
+            smoke_failures++;
+        mouse_click = 0;
         world.yaw = 25;
         world.pitch = 12;
         debug_hud = 1;
@@ -638,20 +666,39 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR args, int show)
             frames++;
             if (frames == 180) {
                 screenshot("smoke-game.bmp");
-                screen = INVENTORY;
+                proc(window, WM_KEYDOWN, 'E', 0);
+                if (screen != INVENTORY)
+                    smoke_failures++;
             }
             if (frames == 190) {
                 screenshot("smoke-inventory.bmp");
-                screen = ACHIEVEMENTS;
+                proc(window, WM_KEYDOWN, VK_ESCAPE, 0);
+                proc(window, WM_KEYDOWN, 'L', 0);
+                if (screen != ACHIEVEMENTS)
+                    smoke_failures++;
             }
             if (frames == 200) {
                 screenshot("smoke-achievements.bmp");
-                screen = MENU;
-                status_time = 0;
+                proc(window, WM_KEYDOWN, VK_ESCAPE, 0);
+                proc(window, WM_KEYDOWN, VK_ESCAPE, 0);
+                if (screen != PAUSE)
+                    smoke_failures++;
+            }
+            if (frames == 202) {
+                screenshot("smoke-pause.bmp");
+                mouse_x = win_w / 2;
+                mouse_y = (int)(win_h * .2f) + 374;
+                mouse_click = 1;
+                render_frame(0);
+                if (screen != MENU)
+                    smoke_failures++;
+                WorldState info;
+                if (!save_info(1, &info) || strcmp(info.name, "Render test") != 0)
+                    smoke_failures++;
             }
             if (frames == 210) {
                 screenshot("smoke-menu.bmp");
-                smoke_actions = 1;
+                smoke_actions = smoke_failures == 0;
                 running = 0;
             }
         }
@@ -661,6 +708,20 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR args, int show)
             Sleep(20);
     }
     capture_mouse(0);
+    if (smoke_mode) {
+        if (smoke_report) {
+            fprintf(smoke_report,
+                    "Menu -> world slot -> create -> play -> inventory -> achievements -> pause -> save and "
+                    "menu: %s\nFailures: %d\n",
+                    smoke_failures ? "FAIL" : "PASS", smoke_failures);
+            fclose(smoke_report);
+        }
+        char temp_path[MAX_PATH];
+        snprintf(temp_path, sizeof(temp_path), "%s\\world-1.pxw", data_dir);
+        DeleteFileA(temp_path);
+        RemoveDirectoryA(data_dir);
+        strcpy_s(data_dir, sizeof(data_dir), smoke_original_dir);
+    }
     render_shutdown();
     wglMakeCurrent(NULL, NULL);
     wglDeleteContext(context);

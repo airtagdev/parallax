@@ -64,7 +64,7 @@ ctest --test-dir build -C Release --output-on-failure
 .\release\Parallax.exe --smoke-test
 ```
 
-The world integrity suite checks deterministic generation, different seeds, safe spawning, movement, walls, ground collision, flight height, ingredient accounting, save/load identity and corrupted-save rejection. The renderer smoke run captures the game, inventory, achievements and main menu, then exits without saving a playable world. Run smoke tests from a writable working directory. These checks are engineering smoke tests, not evidence of vanilla compatibility or a substitute for playtesting.
+The world integrity suite checks deterministic generation, different seeds, safe spawning, movement, walls, ground collision, flight height, ingredient accounting, block targeting, mining, placement, nearby mob movement, save/load identity and corrupted-save rejection. The renderer smoke run exercises menu buttons and keyboard handlers through world creation, inventory, achievements, pause, and save/return; it captures five views, then removes its isolated test save. It never uses a player's save slot. Run smoke tests from a writable working directory. These checks are engineering smoke tests, not evidence of vanilla compatibility or a substitute for playtesting.
 
 ## Current limits
 

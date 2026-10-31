@@ -257,7 +257,11 @@ int button(float x, float y, float w, float h, const char *label) {
     rect(x, y, w, h, hover ? .14f : .09f, hover ? .25f : .15f, hover ? .33f : .21f, 1);
     rect(x, y, 3, h, .28f, .82f, .74f, 1);
     text_at(x + 18, y + (h - 20) / 2, label, .88f, .94f, .96f);
-    return hover && mouse_click;
+    if (hover && mouse_click) {
+        mouse_click = 0;
+        return 1;
+    }
+    return 0;
 }
 void render_frame(float dt) {
     static float elapsed;

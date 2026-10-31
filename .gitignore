@@ -4,4 +4,6 @@
 *.tmp
 *.bmp
 self-test-results.txt
+render-test-results.txt
+/smoke-*.png
 .vs/

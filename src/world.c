@@ -633,6 +633,24 @@ int self_test(void) {
     world.inventory[LOG] = 3;
     craft_item(0);
     CHECK_TEST(world.inventory[LOG] == 2 && world.inventory[PLANKS] == 20, "Crafting accounting");
+    for (int i = 0; i < MOB_COUNT; i++)
+        world.mobs[i].hp = 0;
+    world.pos = (Vec3){128.5f, 49.01f, 128.5f};
+    world.yaw = world.pitch = 0;
+    set_block(128, 50, 125, STONE);
+    update_target();
+    CHECK_TEST(has_target && target[2] == 125 && adjacent[2] == 126, "Block ray targeting");
+    selected = PLANKS;
+    interact(1);
+    CHECK_TEST(block_at(128, 50, 126) == PLANKS && world.inventory[PLANKS] == 19,
+               "Placement consumes a block");
+    update_target();
+    interact(0);
+    CHECK_TEST(block_at(128, 50, 126) == AIR && world.inventory[PLANKS] == 20, "Mining returns a block");
+    world.mobs[0] = (Mob){130.5f, 49, 130.5f, 1, 5, 0, 0, 0, 10};
+    float previous_x = world.mobs[0].x;
+    update_game(.016f);
+    CHECK_TEST(world.mobs[0].x != previous_x, "Nearby mob movement");
     uint32_t before = checksum_bytes(blocks, n, 2166136261u);
     CHECK_TEST(save_world(99), "Save creation");
     set_block(1, 10, 1, AIR);
