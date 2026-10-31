@@ -2,6 +2,8 @@
 
 The target is a faithful, independently implemented C rewrite of **Minecraft: Java Edition 26.3**: the same appearance, menus, controls, movement, simulation, world generation, world format, content and advancement behavior. Similar-looking replacement mechanics are not acceptable substitutes. See [the acceptance specification](docs/SPECIFICATION.md).
 
+The implementation baseline is now a **direct source port of Horizon's MIT-licensed Rust systems to C**, pinned in `horizon.lock.json`. The first translated input primitives and a Rust/C comparison harness are in place. See [the Horizon port record](docs/HORIZON-PORT.md). This is not an automatic whole-game conversion, and Horizon itself is not proof of universal vanilla equivalence.
+
 **The complete game is not implemented. The current executable is a title-rendering and compatibility-test build, not a playable Minecraft replacement.** Singleplayer and other unfinished screens report implementation gaps. They do not open the previous sandbox.
 
 ## What changed
@@ -10,7 +12,7 @@ The original 0.1 release was a custom voxel sandbox. It was the wrong implementa
 
 The new default executable is built from `src/rewrite/`. It contains no copied Minecraft Java implementation, bytecode, native game library, or original Minecraft shader program. Windows/OpenGL platform APIs are used by the C application. Java appears only in optional, separate reference tools; the C executable does not start or embed a JVM.
 
-For an explicitly labeled playable build of the retired experiment, run `scripts/build-playable-experiment.ps1`. It extracts 18 block textures from the local 26.3 JAR and builds `release/playable-experiment/ParallaxSandbox.exe`, with separate saves and integrity/render checks. This is the earlier custom sandbox, not the faithful rewrite; it does not replace the default executable.
+The retired experimental sandbox is retained only as historical work. Compiling or demonstrating it does not fulfill a request for the Minecraft rewrite.
 
 ## Current evidence
 

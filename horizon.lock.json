@@ -1,0 +1,41 @@
+{
+  "repository": "https://github.com/horizon-rust/horizon",
+  "revision": "0d327cc09307a90dce273d5753e1d88bf0f2f461",
+  "root_tree": "3fc5b99661afd9be4721fabde49ace6d63f17e45",
+  "license": "MIT",
+  "inventory": {
+    "rust_files": 1892,
+    "rust_bytes": 34636202,
+    "truncated": false
+  },
+  "reference_files": [
+    {
+      "path": "crates/horizon-client-input/src/mouse.rs",
+      "git_blob_sha": "7e60b81c16afed63139f36ec416bd1a4f0791c57"
+    },
+    {
+      "path": "crates/horizon-client-input/src/input.rs",
+      "git_blob_sha": "f8b2c10b7f3576c5853274ffb09b25bad7a83621"
+    },
+    {
+      "path": "crates/horizon-client-input/src/interaction_input.rs",
+      "git_blob_sha": "ca68dc4f17badd62abb38776d8ed1a43881f6906"
+    }
+  ],
+  "ports": [
+    {
+      "source": "crates/horizon-client-input/src/mouse.rs",
+      "c": "src/rewrite/horizon_input.c",
+      "status": "mouse primitive implementation translated; only probe scenarios verified; not wired to a playable client"
+    },
+    {
+      "source": "crates/horizon-client-input/src/input.rs",
+      "c": "src/rewrite/horizon_input.c",
+      "status": "keyboard_direction and modify_input arithmetic translated; winit quit adapter not ported"
+    },
+    {
+      "source": "crates/horizon-client-input/src/interaction_input.rs",
+      "status": "reference downloaded; C translation pending"
+    }
+  ]
+}

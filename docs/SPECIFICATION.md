@@ -28,7 +28,7 @@ Implement native NBT/Anvil region/chunk storage and the appropriate 26.3 data ve
 
 ## Implementation provenance
 
-Write the C implementation independently. Do not embed or distribute copied/decompiled Minecraft Java code, bytecode, game-native libraries or original shader programs. Extract assets and declarative resource data locally, keep them out of Git, and independently implement the code needed to use them. Reference tools may run the user's original game/JDK as a black box to obtain expected behavior. Running Java behind a launcher is not a C rewrite.
+Use the MIT-licensed Horizon Rust implementation as the source-port baseline, with its license/attribution preserved and a pinned source revision. Translate the actual systems to C and compare them against their Rust implementations. Do not embed or distribute copied/decompiled Minecraft Java code, bytecode, game-native libraries or original shader programs. Extract assets and declarative resource data locally and keep them out of Git. Reference tools may run the original game/JDK as a black box. A C wrapper around Java or Rust is not a C rewrite. Horizon has its own remaining compatibility gaps; porting it does not automatically establish perfect vanilla equivalence.
 
 ## Evidence and reporting
 
