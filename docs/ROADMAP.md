@@ -1,27 +1,14 @@
-# Implementation roadmap
+# Rewrite milestones
 
-The first release establishes a small, playable C application. Progress is measured by features in the executable and reproducible tests, rather than a percentage of Minecraft completeness.
+All milestones follow SPECIFICATION.md. The experimental 0.1 sandbox is not the implementation baseline.
 
-## 1. World and player foundation
+1. **Reference and resources:** pinned artifact hashes, safe local extraction, registries/catalogs, reusable black-box oracles and screenshot comparison. Initial importer/JSON/random-stream/widget tests now exist.
+2. **Complete native shell:** title, world selection/creation, options, controls, resource selection, loading and all menu states, with keyboard/mouse/focus behavior, sounds and narration. Resolve every title discrepancy before declaring that screen complete.
+3. **Native world data:** NBT, Anvil, block-state/model and item-component registries, safe save-copy round trips, chunk streaming, rendering, light and collision. Open native isolated test worlds before inventing a generator.
+4. **Player and survival:** a deterministic 20 Hz authoritative simulation with exact native input transformation, movement, interaction, inventory/crafting and persistent state. Compare traces against native scenarios.
+5. **Generation and ticking:** exact random/math streams and vanilla worldgen definitions, dimensions, biomes, structures, scheduled/random blocks, fluids and redstone. Verify same-seed chunks.
+6. **Entities and content:** native model/animation and behavior systems, spawning, pathfinding, combat, workstations, food, loot, recipes and all remaining mechanics.
+7. **Advancements and end-to-end progression:** native trigger/criteria/requirements/reward engine, original advancement GUI and saves; verify complete survival progression scenarios.
+8. **Networking, broader fidelity and release:** native protocol/auth boundaries, additional hardware/GUI scales/locales, long-session saves and performance comparisons. Maintain the explicit gap ledger throughout.
 
-Implemented: generated terrain, simple meshing, textures, movement, collision, mining/placement, inventory and custom saves.
-
-Next: split world, simulation and rendering modules; asynchronous generation and meshing; chunk streaming with practically unbounded coordinates; robust save migration; texture mipmaps and ambient occlusion; actual sky/block lighting. Add NBT/Anvil reading before claiming vanilla world support.
-
-## 2. Survival and progression
-
-Implemented: basic health/hunger, four recipes, resource collection, respawn and 24 custom achievement triggers.
-
-Next: item stacks and drops, tools, mining times, durability, workstations, recipe data loading, containers, food items, fall/drowning damage and a trigger-based advancement engine. Importing the vanilla advancement JSON catalog alone will not make its triggers work; each required gameplay system and trigger must be implemented and exercised.
-
-## 3. Terrain and entities
-
-Implemented: deterministic hills, biome-like surface variation, caves, water, ores, trees, basic animals and zombies.
-
-Next: proper biome distribution, structures, incremental world generation, richer caves, fluid ticks, entity collision and pathfinding, spawn/despawn rules, model loading, loot tables, farming, breeding and additional dimensions.
-
-## 4. Compatibility and multiplayer
-
-Not implemented: Java protocol, Microsoft sign-in, vanilla world round-trips, Java mods or server hosting.
-
-First isolate an authoritative simulation from the client, add deterministic tick/replay tests, and use a local reference game to compare representative behavior. Add networking only after chunk and entity state are stable. Any future account flow should be interactive OAuth/device authorization; never collect account passwords in the game or source repository.
+These are implementation dependencies, not permission gates or a promise that the complete game can be delivered in one turn.

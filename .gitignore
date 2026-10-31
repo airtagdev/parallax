@@ -1,9 +1,13 @@
 /build/
 /release/
+/.local/
 *.pxw
 *.tmp
 *.bmp
 self-test-results.txt
 render-test-results.txt
 /smoke-*.png
+/rewrite-*.png
+resource-verification.json
+title-parity-results.txt
 .vs/
